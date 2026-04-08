@@ -22,20 +22,20 @@ jobs:
 
     - name: Build with Maven
       run: mvn -B clean test verify || true
-      # `|| true` ensures the job continues even if tests or reporting fail
+      # `|| true` ensures the workflow continues even if tests or reporting fail
 
-    - name: Upload Cucumber Reports
-      if: always()   # run even if previous step failed
-      uses: actions/upload-artifact@v4
-      with:
-        name: cucumber-reports
-        path: target/cucumber-reports
-        if-no-files-found: ignore   # don't fail if folder missing
-
-    - name: Upload Extent Reports
+    - name: Upload Cucumber JSON
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: extent-reports
-        path: target/extent-report
+        name: cucumber-json
+        path: target/cucumber.json
+        if-no-files-found: ignore
+
+    - name: Upload Extent Report PDF
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: extent-report
+        path: "target/Extent Reports/Extent Report.pdf"
         if-no-files-found: ignore
