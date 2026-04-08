@@ -18,6 +18,9 @@ public class DriverManager {
                 case "chrome":
                     WebDriverManager.chromedriver().setup();
                     ChromeOptions chromeOptions = new ChromeOptions();
+                 // Force consistent viewport size
+                    chromeOptions.addArguments("--window-size=1920,1080");
+
                     // Run headless only in CI (GitHub Actions sets CI=true)
                     if (System.getenv("CI") != null) {
                         chromeOptions.addArguments("--headless=new");
