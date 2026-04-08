@@ -1,30 +1,42 @@
 package Utils;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class DriverManager {
 
-	private static WebDriver driver;
+    private static WebDriver driver;
 
     // Initialize driver based on browser type
     public static void initDriver(String browser) {
         if (driver == null) {
             switch (browser.toLowerCase()) {
                 case "chrome":
-                    System.setProperty("webdriver.chrome.driver", ConfigFileReader.get("chromedriverpath"));
-                    driver = new ChromeDriver();
+                    WebDriverManager.chromedriver().setup();
+                    ChromeOptions chromeOptions = new ChromeOptions();
+                    // Run headless only in CI (GitHub Actions sets CI=true)
+                    if (System.getenv("CI") != null) {
+                        chromeOptions.addArguments("--headless=new");
+                        chromeOptions.addArguments("--no-sandbox");
+                        chromeOptions.addArguments("--disable-dev-shm-usage");
+                    }
+                    driver = new ChromeDriver(chromeOptions);
                     break;
+
                 case "firefox":
-                    System.setProperty("webdriver.gecko.driver", ConfigFileReader.get("geckodriverPath"));
+                    WebDriverManager.firefoxdriver().setup();
                     driver = new FirefoxDriver();
                     break;
+
                 case "edge":
-                    System.setProperty("webdriver.edge.driver", ConfigFileReader.get("edgedriverPath"));
+                    WebDriverManager.edgedriver().setup();
                     driver = new EdgeDriver();
                     break;
+
                 default:
                     throw new IllegalArgumentException("Unsupported browser: " + browser);
             }
@@ -47,9 +59,4 @@ public class DriverManager {
             driver = null;
         }
     }
-
-
-
-
-
 }
