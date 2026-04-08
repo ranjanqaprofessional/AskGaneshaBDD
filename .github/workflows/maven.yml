@@ -61,6 +61,14 @@ jobs:
       with:
         path: target/ExtentReports
 
+    - name: Add report links to summary
+      if: always()
+      run: |
+        echo "### 📊 Test Reports" >> $GITHUB_STEP_SUMMARY
+        echo "- [Extent Spark HTML Report](https://ranjanqaprofessional.github.io/AskGaneshaBDD/ExtentReports/ExtentSpark.html)" >> $GITHUB_STEP_SUMMARY
+        echo "- [Extent Report PDF (download)](https://github.com/ranjanqaprofessional/AskGaneshaBDD/suites/${{ github.run_id }}/artifacts)" >> $GITHUB_STEP_SUMMARY
+        echo "- [Cucumber JSON (download)](https://github.com/ranjanqaprofessional/AskGaneshaBDD/suites/${{ github.run_id }}/artifacts)" >> $GITHUB_STEP_SUMMARY
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
