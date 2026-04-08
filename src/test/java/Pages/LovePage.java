@@ -2,15 +2,15 @@ package Pages;
 
 import java.util.List;
 
+import org.junit.Assert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 import Utils.Commonmethods;
 import Utils.ConfigFileReader;
 import Utils.DriverManager;
-import junit.framework.Assert;
+
 
 public class LovePage {
 	
