@@ -37,5 +37,13 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: extent-report
-        path: "target/Extent Reports/Extent Report.pdf"
+        path: "target/ExtentReports/ExtentReport.pdf"
         if-no-files-found: ignore
+        
+    - name: Upload Extent Spark HTML
+  if: always()
+  uses: actions/upload-artifact@v4
+  with:
+    name: extent-spark
+    path: "target/ExtentReports/ExtentSpark.html"
+    if-no-files-found: ignore
