@@ -1,4 +1,4 @@
-name: Maven CI
+name: Maven CI with Reports
 
 on:
   push:
@@ -54,3 +54,20 @@ jobs:
         name: extent-spark
         path: "target/ExtentReports/ExtentSpark.html"
         if-no-files-found: ignore
+
+    - name: Upload Spark HTML for GitHub Pages
+      if: always()
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: target/ExtentReports
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+
+    steps:
+    - name: Deploy to GitHub Pages
+      uses: actions/deploy-pages@v4
